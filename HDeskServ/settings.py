@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.humanize',
     'bootstrap4form',
     'helpdesk',
-    'bootstrap',
+    'bootstrap4',
     "pinax.templates",
 
     # 'bootstrap4form',
