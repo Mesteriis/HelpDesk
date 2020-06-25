@@ -50,6 +50,68 @@
 
             </div>
             <div class="">
+                {% if request.user == "avm" %}
+                    <nav id="navBarsClient" class="navbar navbar-expand-sm bg-light">
+                        <a class="navbar-brand" href="#">Support</a>
+                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample03"
+                                aria-controls="navbarsExample03" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <div class="collapse navbar-collapse" id="navbarsSupportt">
+                            <ul class="navbar-nav mr-auto">
+                                <li class="nav-item active">
+                                    <a class="nav-link" href="#">Сделать скриншот<span class="sr-only">(current)</span></a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#">VNC</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#">Отправить файл</a>
+                                </li>
+
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" id="dropdown031"
+                                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Объект</a>
+                                    <div class="dropdown-menu" aria-labelledby="dropdown031">
+                                        <a class="dropdown-item" href="#">ВАЗ 21010</a>
+                                        <a class="dropdown-item" href="#">Газель 3110</a>
+                                        <a class="dropdown-item mr-auto" href="#">Камаз</a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </nav>
+                {% else %}
+
+                     <nav id="navBarsSupport" class="navbar navbar-expand-sm bg-light">
+                        <a class="navbar-brand" href="#" style="border: 1px solid silver; border-radius: 10px; padding: 5px">Чат с {{ opponent_username }}</a>
+                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample03"
+                            aria-controls="navbarsExample03" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <div class="collapse navbar-collapse" id="navbarsClientt">
+                            <ul class="navbar-nav mr-auto">
+                                <li class="nav-item active">
+                                    <a class="nav-link" href="#">Создать тикет <span class="sr-only">(current)</span></a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#">VNC</a>
+                                </li>
+
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" id="dropdown03"
+                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Персональные кабинеты</a>
+                                    <div class="dropdown-menu" aria-labelledby="dropdown03">
+                                        <a class="dropdown-item" href="#">Наш</a>
+                                        <a class="dropdown-item" href="#">OmniComm</a>
+                                        <a class="dropdown-item mr-auto" href="#">Wialon</a>
+                                    </div>
+                                </li>
+                            </ul>
+
+                        </div>
+                     </nav>
+                {% endif %}
                 <div class="messages-container">
                     <div id="messages" class="messages">
                         {% for msg in active_dialog.messages.all %}
@@ -138,14 +200,11 @@
 
             function addNewMessage(packet) {
                 var msg_class = "";
-                let os='';
                 if (packet['sender_name'] == $("#owner_username").val()) {
-                    {#msg_class = "mySide";#}
                     msg_class = "opponentSide";
 
                 } else {
                     msg_class = "mySide";
-                    let os = 'opponentSide'
                 }
                 var msgElem =
                     $('<div class="row msg-unread" data-id="' + packet.message_id + '">' +
