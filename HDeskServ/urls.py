@@ -20,6 +20,7 @@ from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
 from . import views as viewsCore
+from privateChat import views as chatViews
 
 # urlpatterns = [
 #     path('admin/', admin.site.urls),
@@ -27,6 +28,19 @@ from . import views as viewsCore
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('test/', viewsCore.index, name='testIndex'),
+    # url(r'^chat/$', include('privateChat.urls', namespace='chat')),
     url(r'^', include('helpdesk.urls', namespace='helpdesk')),
-] \
-               + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+
+urlpatterns += [
+    url(
+        regex=r'^dialogs/(?P<username>[\w.@+-]+)$',
+        view=chatViews.DialogListView.as_view(),
+        name='dialogs_detail'
+    ),
+    url(
+        regex=r'^dialogs/$',
+        view=chatViews.DialogListView.as_view(),
+        name='dialogs'
+    ),
+]

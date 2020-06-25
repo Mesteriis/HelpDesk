@@ -36,11 +36,10 @@ urlpatterns = [
     url(r'^dashboard/$',
         staff.dashboard,
         name='dashboard'),
-    path('tickets/', staff.ticket_list,
+
+    url(r'^tickets/$',
+        staff.ticket_list,
         name='list'),
-    # url(r'^tickets/$',
-    #     staff.ticket_list,
-        # name='list'),
 
     url(r'^tickets/update/$',
         staff.mass_update,

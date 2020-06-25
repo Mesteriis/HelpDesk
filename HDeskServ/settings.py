@@ -44,13 +44,7 @@ INSTALLED_APPS = [
     'helpdesk',
     'bootstrap4',
     "pinax.templates",
-
-    # 'bootstrap4form',
-    # 'account',
-    # 'pinax.invitations',
-    # 'pinax.teams',
-    # 'helpdesk',
-    # 'reversion',
+    'privateChat'
 ]
 
 MIDDLEWARE = [
@@ -65,6 +59,15 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'HDeskServ.urls'
+
+
+
+# Chat settings
+CHAT_WS_SERVER_HOST = 'localhost'
+CHAT_WS_SERVER_PORT = 5002
+CHAT_WS_SERVER_PROTOCOL = 'ws'
+CHAT_SERVER_STARTUP = True
+
 
 TEMPLATES = [
     {
@@ -231,5 +234,8 @@ FIXTURE_DIRS = [os.path.join(BASE_DIR, 'fixtures')]
 
 try:
     from .local_settings import *
+    print('Local settings detected, load ...')
 except ImportError:
+    print('Local settings is not detected, load def settings ...')
     pass
+
