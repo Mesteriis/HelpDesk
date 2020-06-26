@@ -12,138 +12,169 @@
 {% endblock css %}
 
 {% block content %}
-    <input id="owner_username" type="hidden" value="{{ request.user.username }}">
-    <div class="container-fluid">
-        <div class="">Система связи с OmniCommPro
-            <div class="user-list-div mt-1">
-                <ul>
-                    {% for dialog in object_list %}
-                        <li class="container-fluid mt-1">
-                            {% if dialog.owner == request.user %}
-                                {% with dialog.opponent.username as username %}
-                                    <a href="{% url 'dialogs_detail' username %}" id="user-{{ username }}"
-                                       class="btn btn-active">{% trans "Chat with" %} {{ username }}</a>
-                                {% endwith %}
-                            {% else %}
-                                {% with dialog.owner.username as username %}
-                                    <a href="{% url 'dialogs_detail' username %}" id="user-{{ username }}"
-                                       class="btn btn-active">{% trans "Chat with" %} {{ username }}</a>
-                                {% endwith %}
-                            {% endif %}
-                        </li>
-                    {% endfor %}
-                </ul>
-            </div>
-        </div>
-        <div class="">
-            <div class="">
-                <div>
+
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg">Large modal
+    </button>
+
+    <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <input id="owner_username" type="hidden" value="{{ request.user.username }}">
+                <div class="container-fluid">
+                    <div class="card-header" style="text-align: center">Система связи с OmniCommPro
+                        <div class="user-list-div mt-1" style="text-align: left">
+                        <details lass="card-body">
+                            <summary>Контакты</summary>
+                            <ul>
+                                {% for dialog in object_list %}
+                                    <li class="container-fluid mt-1">
+                                        {% if dialog.owner == request.user %}
+                                            {% with dialog.opponent.username as username %}
+                                                <a href="{% url 'dialogs_detail' username %}" id="user-{{ username }}"
+                                                   class="btn btn-active">{% trans "Chat with" %} {{ username }}</a>
+                                            {% endwith %}
+                                        {% else %}
+                                            {% with dialog.owner.username as username %}
+                                                <a href="{% url 'dialogs_detail' username %}" id="user-{{ username }}"
+                                                   class="btn btn-active">{% trans "Chat with" %} {{ username }}</a>
+                                            {% endwith %}
+                                        {% endif %}
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </details>
+                        </div>
+                    </div>
+                    <div class="">
+                        <div class="">
+                            <div>
                     <span class="pull-right" hidden id="typing-text">
                         <strong>{{ opponent_username }} {% trans "  - is typing..." %}</strong>
                     </span>
-                </div>
-                <p>
-                    {{ opponent_username }}
-                    <span class="text-success ml-1" id="online-status" style="display: none">{% trans " is Online" %}</span>
-                    <span class="text-danger ml-1" id="offline-status" style="display: none">{% trans " is Offline" %}</span>
-                </p>
-
-            </div>
-            <div class="">
-                {% if request.user == "avm" %}
-                    <nav id="navBarsClient" class="navbar navbar-expand-sm bg-light">
-                        <a class="navbar-brand" href="#">Support</a>
-                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample03"
-                                aria-controls="navbarsExample03" aria-expanded="false" aria-label="Toggle navigation">
-                            <span class="navbar-toggler-icon"></span>
-                        </button>
-                        <div class="collapse navbar-collapse" id="navbarsSupportt">
-                            <ul class="navbar-nav mr-auto">
-                                <li class="nav-item active">
-                                    <a class="nav-link" href="#">Сделать скриншот<span class="sr-only">(current)</span></a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="#">VNC</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="#">Отправить файл</a>
-                                </li>
-
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="#" id="dropdown031"
-                                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Объект</a>
-                                    <div class="dropdown-menu" aria-labelledby="dropdown031">
-                                        <a class="dropdown-item" href="#">ВАЗ 21010</a>
-                                        <a class="dropdown-item" href="#">Газель 3110</a>
-                                        <a class="dropdown-item mr-auto" href="#">Камаз</a>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                    </nav>
-                {% else %}
-
-                     <nav id="navBarsSupport" class="navbar navbar-expand-sm bg-light">
-                        <a class="navbar-brand" href="#" style="border: 1px solid silver; border-radius: 10px; padding: 5px">Чат с {{ opponent_username }}</a>
-                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample03"
-                            aria-controls="navbarsExample03" aria-expanded="false" aria-label="Toggle navigation">
-                            <span class="navbar-toggler-icon"></span>
-                        </button>
-                        <div class="collapse navbar-collapse" id="navbarsClientt">
-                            <ul class="navbar-nav mr-auto">
-                                <li class="nav-item active">
-                                    <a class="nav-link" href="#">Создать тикет <span class="sr-only">(current)</span></a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="#">VNC</a>
-                                </li>
-
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="#" id="dropdown03"
-                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Персональные кабинеты</a>
-                                    <div class="dropdown-menu" aria-labelledby="dropdown03">
-                                        <a class="dropdown-item" href="#">Наш</a>
-                                        <a class="dropdown-item" href="#">OmniComm</a>
-                                        <a class="dropdown-item mr-auto" href="#">Wialon</a>
-                                    </div>
-                                </li>
-                            </ul>
-
-                        </div>
-                     </nav>
-                {% endif %}
-                <div class="messages-container">
-                    <div id="messages" class="messages">
-                        {% for msg in active_dialog.messages.all %}
-                            <div class="row {% if msg.read %}msg-read{% else %}msg-unread{% endif %}"
-                                 data-id="{{ msg.id }}">
-                                <p class="{% if msg.sender == request.user %}pull-left{% else %}pull-right{% endif %}">
-                                    <span class="username" style="width: 200px;">{{ msg.sender.username }}:</span>
-                                    {{ msg.text }}
-                                    <sup class="timestamp ml-auto"><span
-                                            data-livestamp="{{ msg.get_formatted_create_datetime| date }}">{{ msg.get_formatted_create_datetime| date }}</span></sup>
-                                </p>
                             </div>
-                        {% endfor %}
-                    </div>
-                </div>
-            </div>
+                            <p>
 
-            <div class="container-fluid">
-                <div class="add-message">
-                    <div class="form-group">
+{#                                <span class="text-success ml-1" id="online-status"#}
+{#                                      style="display: none">{% trans " is Online" %}</span>#}
+{#                                <span class="text-danger ml-1" id="offline-status"#}
+{#                                      style="display: none">{% trans " is Offline" %}</span>#}
+                            </p>
+
+                        </div>
+                        <div class="">
+                            {% if request.user == "avm" %}
+                                <nav id="navBarsClient" class="navbar navbar-expand-sm bg-light">
+                                    <a class="navbar-brand" href="#">Support</a>
+                                    <button class="navbar-toggler" type="button" data-toggle="collapse"
+                                            data-target="#navbarsExample03"
+                                            aria-controls="navbarsExample03" aria-expanded="false"
+                                            aria-label="Toggle navigation">
+                                        <span class="navbar-toggler-icon"></span>
+                                    </button>
+                                    <div class="collapse navbar-collapse" id="navbarsSupportt">
+                                        <ul class="navbar-nav mr-auto">
+                                            <li class="nav-item active">
+                                                <a class="nav-link" href="#">Сделать скриншот<span class="sr-only">(current)</span></a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" href="#">VNC</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" href="#">Отправить файл</a>
+                                            </li>
+
+                                            <li class="nav-item dropdown">
+                                                <a class="nav-link dropdown-toggle" href="#" id="dropdown031"
+                                                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Объект</a>
+                                                <div class="dropdown-menu" aria-labelledby="dropdown031">
+                                                    <a class="dropdown-item" href="#">ВАЗ 21010</a>
+                                                    <a class="dropdown-item" href="#">Газель 3110</a>
+                                                    <a class="dropdown-item mr-auto" href="#">Камаз</a>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </nav>
+                            {% else %}
+                                <nav id="navBarsSupport" class="navbar navbar-expand-sm bg-light">
+                                    <a class="navbar-brand" href="#"
+                                       style="border: 1px solid silver; border-radius: 10px; padding: 5px">Чат
+                                        с {{ opponent_username }}
+                                        <span class="text-success ml-1" id="online-status"
+                                      style="display: none">{% trans " is Online" %}</span>
+                                        <span class="text-danger ml-1" id="offline-status"
+                                      style="display: none">{% trans " is Offline" %}</span>
+                                    </a>
+                                    <button class="navbar-toggler" type="button" data-toggle="collapse"
+                                            data-target="#navbarsExample03"
+                                            aria-controls="navbarsExample03" aria-expanded="false"
+                                            aria-label="Toggle navigation">
+                                        <span class="navbar-toggler-icon"></span>
+                                    </button>
+                                    <div class="collapse navbar-collapse" id="navbarsClientt">
+                                        <ul class="navbar-nav mr-auto">
+                                            <li class="nav-item active">
+                                                <a class="nav-link" href="#">Создать тикет <span class="sr-only">(current)</span></a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" href="#">VNC</a>
+                                            </li>
+
+                                            <li class="nav-item dropdown">
+                                                <a class="nav-link dropdown-toggle" href="#" id="dropdown03"
+                                                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Персональные
+                                                    кабинеты</a>
+                                                <div class="dropdown-menu" aria-labelledby="dropdown03">
+                                                    <a class="dropdown-item" href="#">Наш</a>
+                                                    <a class="dropdown-item" href="#">OmniComm</a>
+                                                    <a class="dropdown-item mr-auto" href="#">Wialon</a>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </nav>
+                            {% endif %}
+                            <div class="messages-container">
+                                <div id="messages" class="messages">
+                                    <details>
+                                    <summary style="text-align: center">История</summary>
+                                    {% for msg in active_dialog.messages.all %}
+                                        <div class="row {% if msg.read %}msg-read{% else %}msg-unread{% endif %}"
+                                             data-id="{{ msg.id }}">
+                                            <p class="{% if msg.sender == request.user %}pull-left{% else %}pull-right{% endif %}">
+                                                <span class="username"
+                                                      style="width: 200px;">{{ msg.sender.username }}:</span>
+                                                {{ msg.text }}
+                                                <sup class="timestamp ml-auto"><span
+                                                        data-livestamp="{{ msg.get_formatted_create_datetime }}">{{ msg.get_formatted_create_datetime }}</span></sup>
+                                            </p>
+                                        </div>
+                                    {% endfor %}
+                                    </details>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="container-fluid">
+                            <div class="add-message">
+                                <div class="form-group">
                         <textarea id="chat-message" class="form-control message"
                                   placeholder="{% trans 'Напишите сообщение' %}"></textarea>
+                                </div>
+
+                                <div class="form-group clearfix">
+                                    <input id="btn-send-message" type="submit"
+                                           class="btn btn-primary pull-right send-message"
+                                           style="margin-left: 10px;" value="{% trans 'Send' %}"/>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
-                    <div class="form-group clearfix">
-                        <input id="btn-send-message" type="submit" class="btn btn-primary pull-right send-message"
-                               style="margin-left: 10px;" value="{% trans 'Send' %}"/>
-                    </div>
                 </div>
             </div>
         </div>
-
     </div>
 {% endblock %}
 
@@ -176,7 +207,7 @@
                 var containerElement = $("#messages");
                 var containerMonitor = scrollMonitor.createContainer(containerElement);
                 $('.msg-unread').each(function (i, elem) {
-                    if ($(elem).hasClass('opponent')){
+                    if ($(elem).hasClass('opponent')) {
                         initReadMessageHandler(containerMonitor, elem);
                     }
 
@@ -218,24 +249,22 @@
                 {#let timeFormated = packet['message'].split(',')[2]#}
                 {#let dateFormated = packet['message'].split(',')[0]#}
 
-                console.log(packet['sender_name']);
-                console.log(msg_class);
                 var newMsgElem =
-                    $('<div data-id='+ packet.message_id +' class="container-fluid ' + msg_class +'"><div class="main_area"><div class="leftSide" style="display: block"><img src="'+
+                    $('<div data-id=' + packet.message_id + ' class="container-fluid ' + msg_class + '"><div class="main_area"><div class="leftSide" style="display: block"><img src="' +
                         '{% static "privateChat/img/defAvatarSupport.jpg" %}' +
-                        '" class="avatars m-2" alt="avatar"><div data-livestamp='+ packet['created'] + ' class="tsh">'+
+                        '" class="avatars m-2" alt="avatar"><div data-livestamp=' + packet['created'] + ' class="tsh">' +
                         timeStamp[0].trim() +
-                        '</div><div class="tsh">'+
+                        '</div><div class="tsh">' +
                         timeStamp[2].trim() + {# Время #}
-                        '</div><div class="tsh"">'+
-                        ''+ {# телефон #}
-                        '</div></div><div class="rightSide"><div class="long_text msq p-1">'+
+                        '</div><div class="tsh"">' +
+                        '' + {# телефон #}
+                        '</div></div><div class="rightSide"><div class="long_text msq p-1">' +
                         packet['message'] +
                         '</div></div></div><div class="clear"></div><div class="footer rightSide" style="text-align: center;"></div><div class="clear"></div></div>');
                 $('#messages').append(newMsgElem);
 
-                console.log(packet['created'])
                 scrollToLastMessage()
+                console.log(packet)
             }
 
             function scrollToLastMessage() {

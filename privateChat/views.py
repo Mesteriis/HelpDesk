@@ -45,4 +45,5 @@ class DialogListView(LoginRequiredMixin, generic.ListView):
             settings.CHAT_WS_SERVER_PORT,
         )
         print(context)
+
         return context
